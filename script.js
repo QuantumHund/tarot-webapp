@@ -14,7 +14,7 @@ function displayCards(cards) {
     img.src = "cards/CardBacks.png";
     img.style.cursor = "pointer";
 
-    // Kártya neve és jelentése rejtve
+    // Név és jelentés rejtve
     const name = document.createElement("h3");
     name.textContent = card.name;
     name.style.display = "none";
@@ -26,8 +26,8 @@ function displayCards(cards) {
     // Kattintás: felfordítás
     img.addEventListener("click", () => {
       img.src = card.type === "Major"
-        ? `cards/major/${card.image}`  // kisbetűs mappa
-        : `cards/minor/${card.image}`; // kisbetűs mappa
+        ? `cards/major/${card.image}`
+        : `cards/minor/${card.image}`;
       name.style.display = "block";
       meaning.style.display = "block";
     });
@@ -40,6 +40,22 @@ function displayCards(cards) {
 }
 
 // ------------------------
+// Egyszerű témakör alapú rövid elemzés
+// ------------------------
+function getTopicAnalysis(card, topic) {
+  topic = topic.toLowerCase();
+  if(topic.includes("szerelem")) {
+    return `${card.name}: érzelmi fejlődés, kapcsolatban való helyzet.`;
+  } else if(topic.includes("munka") || topic.includes("karrier")) {
+    return `${card.name}: munka, karrier, lehetőségek és akadályok.`;
+  } else if(topic.includes("pénz")) {
+    return `${card.name}: pénzügyek, anyagi helyzet, döntések.`;
+  } else {
+    return `${card.name}: általános jelentés – ${card.meaning}`;
+  }
+}
+
+// ------------------------
 // Kirakás és elemzés
 // ------------------------
 document.addEventListener("DOMContentLoaded", () => {
@@ -47,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   drawBtn.addEventListener("click", () => {
     const spread = document.getElementById("spreadType").value;
-    const question = document.getElementById("question").value;
+    const question = document.getElementById("question").value || "";
 
     let numCards;
     switch(spread) {
@@ -70,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     drawn.forEach((card, index) => {
       const line = document.createElement("p");
-      line.textContent = `${index + 1}. ${card.name}: ${card.meaning} (kérdés: "${question}")`;
+      line.textContent = `${index + 1}. ${getTopicAnalysis(card, question)}`;
       analysisDiv.appendChild(line);
     });
   });
