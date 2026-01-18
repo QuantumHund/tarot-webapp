@@ -11,7 +11,7 @@ function displayCards(cards) {
 
     // Hátlap
     const img = document.createElement("img");
-    img.src = "cards/CardBacks.png";
+    img.src = "cards/CardBacks.png"; // hátlap
     img.style.cursor = "pointer";
 
     // Név és jelentés rejtve
@@ -25,9 +25,8 @@ function displayCards(cards) {
 
     // Kattintás: felfordítás
     img.addEventListener("click", () => {
-      img.src = card.type === "Major"
-        ? `cards/major/${card.image}`
-        : `cards/minor/${card.image}`;
+      // Most már a tarotDeck.js-ben megadott teljes elérési utat használjuk
+      img.src = card.image;
       name.style.display = "block";
       meaning.style.display = "block";
     });
@@ -44,6 +43,7 @@ function displayCards(cards) {
 // ------------------------
 function getTopicAnalysis(card, topic) {
   topic = topic.toLowerCase();
+
   if(topic.includes("szerelem")) {
     return `${card.name}: érzelmi fejlődés, kapcsolatban való helyzet.`;
   } else if(topic.includes("munka") || topic.includes("karrier")) {
@@ -51,7 +51,8 @@ function getTopicAnalysis(card, topic) {
   } else if(topic.includes("pénz")) {
     return `${card.name}: pénzügyek, anyagi helyzet, döntések.`;
   } else {
-    return `${card.name}: általános jelentés – ${card.meaning}`;
+    // Minden kártya a saját meaning mezőjét írja ki
+    return `${card.name}: ${card.meaning || "Nincs jelentés."}`;
   }
 }
 
