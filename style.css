@@ -1,43 +1,36 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: #f7f7f7;
+}
+
 #cards {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .card {
   width: 120px;
-  perspective: 1000px; /* flip hatás */
+  text-align: center;
+  transition: transform 0.3s;
 }
 
-.card-inner {
-  position: relative;
+.card img {
   width: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.6s;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   cursor: pointer;
 }
 
-.card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-  position: absolute;
-  width: 100%;
-  backface-visibility: hidden;
-  border-radius: 8px;
-}
-
-.card-front img, .card-back img {
-  width: 100%;
-}
-
-.card-front {
-  transform: rotateY(180deg);
-}
-
-.card-front h3, .card-front p {
-  text-align: center;
-  font-size: 0.8em;
+.card h3, .card p {
   margin: 5px 0;
+  font-size: 0.85rem;
+}
+
+.card.selected {
+  transform: translateY(20px);
 }
