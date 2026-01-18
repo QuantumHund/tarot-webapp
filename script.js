@@ -1,51 +1,70 @@
+// ------------------------
+// Kártyák megjelenítése
+// ------------------------
 function displayCards(cards) {
   const container = document.getElementById("cards");
-  container.innerHTML = "";
+  container.innerHTML = ""; // előző kirakás törlése
 
   cards.forEach(card => {
-    const cardDiv = document.createElement("div");
-    cardDiv.className = "card";
+    const div = document.createElement("div");
+    div.className = "card";
 
-    const innerDiv = document.createElement("div");
-    innerDiv.className = "card-inner";
+    // Hátlap kezdetben
+    const img = document.createElement("img");
+    img.src = "cards/CardBacks.png"; // hátlap
+    img.style.cursor = "pointer";
 
-    // Hátlap
-    const backDiv = document.createElement("div");
-    backDiv.className = "card-back";
-    const backImg = document.createElement("img");
-    backImg.src = "cards/CardBacks.png";
-    backDiv.appendChild(backImg);
-
-    // Előlap
-    const frontDiv = document.createElement("div");
-    frontDiv.className = "card-front";
-    const frontImg = document.createElement("img");
-    // Ellenőrizni, Major vagy Minor mappa
-    frontImg.src = card.type === "Major" 
-      ? `cards/Major/${card.image}`
-      : `cards/Minor/${card.image}`;
-
+    // Kártya neve és jelentése rejtve
     const name = document.createElement("h3");
     name.textContent = card.name;
+    name.style.display = "none";
 
     const meaning = document.createElement("p");
     meaning.textContent = card.meaning;
+    meaning.style.display = "none";
 
-    frontDiv.appendChild(frontImg);
-    frontDiv.appendChild(name);
-    frontDiv.appendChild(meaning);
-
-    innerDiv.appendChild(backDiv);
-    innerDiv.appendChild(frontDiv);
-    cardDiv.appendChild(innerDiv);
-    container.appendChild(cardDiv);
-
-    // Flip esemény
-    cardDiv.addEventListener("click", () => {
-      cardDiv.classList.toggle("flipped");
+    // Kattintás: felfordítás
+    img.addEventListener("click", () => {
+      img.src = card.type === "Major"
+        ? `cards/major/${card.image}`  // kisbetűs mappa
+        : `cards/minor/${card.image}`; // kisbetűs mappa
+      name.style.display = "block";
+      meaning.style.display = "block";
     });
+
+    div.appendChild(img);
+    div.appendChild(name);
+    div.appendChild(meaning);
+    container.appendChild(div);
   });
 }
 
-// Meghívás
-displayCards(tarotDeck);
+// ------------------------
+// Kirakás és kérdés kezelése
+// ------------------------
+document.getElementById("drawBtn").addEventListener("click", () => {
+  const spread = document.getElementById("spreadType").value;
+  const question = document.getElementById("question").value;
+
+  let numCards;
+  switch(spread) {
+    case "oneCard": numCards = 1; break;
+    case "threeCard": numCards = 3; break;
+    case "celticCross": numCards = 10; break;
+    default: numCards = 1;
+  }
+
+  // Véletlenszerű húzás a tarotDeck-ből
+  const shuffled = [...tarotDeck].sort(() => 0.5 - Math.random());
+  const drawn = shuffled.slice(0, numCards);
+
+  // Megjelenítés
+  displayCards(drawn);
+
+  // Rövid elemzés (alert-ben)
+  const analysis = drawn.map((card, index) => {
+    return `${index + 1}. ${card.name}: ${card.meaning} (kérdés: "${question}")`;
+  }).join("\n");
+
+  alert(analysis); // ide lehet később div-et csinálni szebben
+});
