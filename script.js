@@ -2,9 +2,21 @@ let selectedCards = [];
 let nextPosition = 0;
 let spreadPositions = [];
 
-// ------------------------
-// Full pakli megjelenítése
-// ------------------------
+/* --- CELTIC CROSS POZÍCIÓK --- */
+const celticPositions = [
+  { label: "Jelen helyzet", grid: "2 / 2" },
+  { label: "Akadály", grid: "2 / 2" },
+  { label: "Alap / múlt", grid: "3 / 2" },
+  { label: "Közelmúlt", grid: "2 / 1" },
+  { label: "Cél / tudatos", grid: "1 / 2" },
+  { label: "Közeljövő", grid: "2 / 3" },
+  { label: "Te magad", grid: "1 / 4" },
+  { label: "Környezet", grid: "2 / 4" },
+  { label: "Remények / félelmek", grid: "3 / 4" },
+  { label: "Kimenetel", grid: "4 / 4" }
+];
+
+/* --- FULL PAKLI --- */
 function displayFullDeck(deck) {
   const container = document.getElementById("cards");
   container.innerHTML = "";
@@ -17,7 +29,7 @@ function displayFullDeck(deck) {
     img.src = "cards/CardBacks.png";
 
     img.addEventListener("click", () => {
-      selectCard(card);
+      selectCard(card, div);
     });
 
     div.appendChild(img);
@@ -25,99 +37,90 @@ function displayFullDeck(deck) {
   });
 }
 
-// ------------------------
-// Kártya kiválasztása és kirakás
-// ------------------------
-function selectCard(card) {
-  if (nextPosition >= spreadPositions.length) {
-    alert("Minden pozíció betelt a kirakásban.");
-    return;
-  }
-  if (selectedCards.includes(card)) return; // ne válasszuk kétszer ugyanazt
+/* --- KIRAKÁS BEÁLLÍTÁSA --- */
+function setupSpread(type) {
+  const spread = document.getElementById("spread");
+  spread.innerHTML = "";
+  spread.className = "";
+  selectedCards = [];
+  nextPosition = 0;
 
-  const targetDiv = spreadPositions[nextPosition];
+  let count = 0;
+
+  if (type === "oneCard") count = 1;
+  if (type === "threeCard") count = 3;
+  if (type === "celticCross") {
+    count = 10;
+    spread.classList.add("celtic");
+  }
+
+  spreadPositions = [];
+
+  for (let i = 0; i < count; i++) {
+    const pos = document.createElement("div");
+    pos.className = "spread-position";
+
+    if (type === "celticCross") {
+      pos.style.gridArea = celticPositions[i].grid;
+
+      const label = document.createElement("div");
+      label.className = "position-label";
+      label.textContent = celticPositions[i].label;
+      pos.appendChild(label);
+    }
+
+    spread.appendChild(pos);
+    spreadPositions.push(pos);
+  }
+
+  displayFullDeck(tarotDeck);
+  updateFinalAnalysis();
+}
+
+/* --- KÁRTYA KIVÁLASZTÁS --- */
+function selectCard(card, cardDiv) {
+  if (nextPosition >= spreadPositions.length) return;
+
+  const target = spreadPositions[nextPosition];
 
   const img = document.createElement("img");
   img.src = card.image;
-  img.className = "card";
-  targetDiv.appendChild(img);
 
-  const analysis = document.createElement("p");
-  analysis.textContent = `${card.name}: ${card.meaning}`;
-  targetDiv.appendChild(analysis);
+  const text = document.createElement("p");
+  text.textContent = card.meaning;
 
+  target.appendChild(img);
+  target.appendChild(text);
+
+  cardDiv.classList.add("used");
   selectedCards.push(card);
   nextPosition++;
 
   updateFinalAnalysis();
 }
 
-// ------------------------
-// Kirakás pozíciók létrehozása
-// ------------------------
-function setupSpread(spreadType) {
-  const spreadDiv = document.getElementById("spread");
-  spreadDiv.innerHTML = "";
-  nextPosition = 0;
-  selectedCards = [];
-
-  let positions = 0;
-  switch(spreadType) {
-    case "oneCard": positions = 1; break;
-    case "threeCard": positions = 3; break;
-    case "celticCross": positions = 10; break;
-  }
-
-  spreadPositions = [];
-  for (let i = 0; i < positions; i++) {
-    const div = document.createElement("div");
-    div.className = "spread-position";
-    spreadDiv.appendChild(div);
-    spreadPositions.push(div);
-  }
-
-  displayFullDeck(tarotDeck); // újra kattintható full pakli
-  updateFinalAnalysis();
-}
-
-// ------------------------
-// Offline "okos" összegzés
-// ------------------------
+/* --- ÖSSZEGZŐ ELEMZÉS --- */
 function updateFinalAnalysis() {
-  const analysisDiv = document.getElementById("finalAnalysis");
+  const box = document.getElementById("finalAnalysis");
+
   if (selectedCards.length === 0) {
-    analysisDiv.textContent = "Nincs kiválasztott kártya.";
+    box.textContent = "Még nincs kiválasztott kártya.";
     return;
   }
 
-  // Kulcsszavak alapján egyszerű koherens összefoglaló
-  const keywords = {};
-  selectedCards.forEach(card => {
-    if (card.keywords) {
-      card.keywords.forEach(k => {
-        keywords[k] = (keywords[k] || 0) + 1;
-      });
-    }
-  });
-
-  // Leggyakoribb kulcsszavak összefoglaló
-  const sortedKeys = Object.keys(keywords).sort((a,b)=>keywords[b]-keywords[a]);
-  const summary = sortedKeys.length > 0 
-    ? `Ez a kirakás fő témái: ${sortedKeys.join(", ")}.`
-    : "A kirakás minden kártyája egyedi jelentéssel bír.";
-
-  analysisDiv.textContent = summary;
+  const themes = selectedCards.map(c => c.meaning).join(" ");
+  box.textContent =
+    "A kirakás összképe azt mutatja, hogy az események egymásra épülnek. " +
+    "A kártyák együttese egy fejlődési folyamatot jelez, ahol a korábbi tapasztalatok " +
+    "meghatározzák a jelen döntéseit, és ezek hatással lesznek a jövő kimenetelére.";
 }
 
-// ------------------------
-// Init
-// ------------------------
+/* --- INIT --- */
 document.addEventListener("DOMContentLoaded", () => {
-  const spreadSelect = document.getElementById("spreadType");
+  const select = document.getElementById("spreadType");
+  setupSpread(select.value);
 
-  setupSpread(spreadSelect.value);
-
-  spreadSelect.addEventListener("change", () => {
-    setupSpread(spreadSelect.value);
+  select.addEventListener("change", () => {
+    setupSpread(select.value);
   });
 });
