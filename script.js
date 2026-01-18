@@ -1,7 +1,6 @@
 /*************************
  * ÁLLAPOT
  *************************/
-
 let currentSpread = [];
 let selectedCards = [];
 let currentIndex = 0;
@@ -9,7 +8,6 @@ let currentIndex = 0;
 /*************************
  * KIRAKÁS DEFINÍCIÓK
  *************************/
-
 function getSpread(type) {
   if (type === "three") {
     return [
@@ -40,7 +38,6 @@ function getSpread(type) {
 /*************************
  * KIRAKÁS RESET
  *************************/
-
 function resetSpread() {
   const type = document.getElementById("spreadType").value;
 
@@ -70,7 +67,6 @@ function resetSpread() {
 /*************************
  * FULL PAKLI MEGJELENÍTÉS
  *************************/
-
 function displayDeck() {
   const container = document.getElementById("cards");
   container.innerHTML = "";
@@ -96,7 +92,6 @@ function displayDeck() {
 /*************************
  * KÁRTYA KIVÁLASZTÁS
  *************************/
-
 function selectCard(card, cardDiv) {
   if (cardDiv.classList.contains("used")) return;
 
@@ -118,8 +113,9 @@ function selectCard(card, cardDiv) {
 
   selectedCards.push({
     name: card.name,
-    meaning: card.meaning,
-    position: currentSpread[currentIndex].label
+    meaning: `Fény: ${card.light} Árnyék: ${card.shadow} Tanács: ${card.advice}`,
+    position: currentSpread[currentIndex].label,
+    themes: card.themes
   });
 
   currentIndex++;
@@ -129,7 +125,6 @@ function selectCard(card, cardDiv) {
 /*************************
  * ELEMZÉS
  *************************/
-
 function updateAnalysis() {
   const analysis = document.getElementById("analysis");
   analysis.innerHTML = "";
@@ -145,44 +140,4 @@ function updateAnalysis() {
   }
 }
 
-/*************************
- * ÖSSZEGZŐ ÉRTELMEZÉS
- *************************/
-
-function generateFinalAnalysis() {
-  let text = "A kirakás összességében azt mutatja, hogy ";
-
-  const meanings = selectedCards.map(c => c.meaning.toLowerCase()).join(" ");
-
-  if (meanings.includes("változás")) {
-    text += "jelentős változás van kibontakozóban. ";
-  }
-  if (meanings.includes("döntés")) {
-    text += "fontos döntés előtt állsz. ";
-  }
-  if (meanings.includes("erő")) {
-    text += "belső erődre támaszkodhatsz. ";
-  }
-
-  text += "A lapok együtt fejlődési irányt és tanulási lehetőséget jeleznek.";
-
-  document.getElementById("finalAnalysis").textContent = text;
-}
-
-/*************************
- * INIT
- *************************/
-
-document.addEventListener("DOMContentLoaded", () => {
-  if (!window.tarotDeck) {
-    alert("A tarotDeck nem töltődött be!");
-    return;
-  }
-
-  displayDeck();
-  resetSpread();
-
-  document
-    .getElementById("spreadType")
-    .addEventListener("change", resetSpread);
-});
+/
