@@ -1,12 +1,32 @@
-<h2>Válassz kirakást:</h2>
-<select id="spreadType">
-  <option value="oneCard">Egylapos kirakás</option>
-  <option value="threeCard">Háromlapos kirakás</option>
-  <option value="celticCross">Celtic Cross</option>
-</select>
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarot Kártyák</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Tarot Kártyák</h1>
 
-<h2>Írd be a kérdésed:</h2>
-<input type="text" id="question" placeholder="Mi érdekel?">
-<button id="drawBtn">Húzz kártyát</button>
+  <h2>Válassz kirakást:</h2>
+  <select id="spreadType">
+    <option value="oneCard">Egylapos kirakás</option>
+    <option value="threeCard">Háromlapos kirakás</option>
+    <option value="celticCross">Celtic Cross</option>
+  </select>
 
-<div id="cards"></div>
+  <h2>Írd be a kérdésed:</h2>
+  <input type="text" id="question" placeholder="Mi érdekel?">
+  <button id="drawBtn">Húzz kártyát</button>
+
+  <div id="cards"></div>
+
+  <h2>Elemzés:</h2>
+  <div id="analysis" style="white-space: pre-line; border: 1px solid #ccc; padding: 10px; border-radius: 8px;"></div>
+
+  <!-- JS fájlok -->
+  <script src="data/tarotDeck.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
