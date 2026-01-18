@@ -2,25 +2,15 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Tarot kirakás</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarot Flip</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <h1>Tarot Kártyák</h1>
+  <div id="cards"></div>
 
-<h1>Tarot kirakás</h1>
-
-<label for="spread">Kirakás típusa:</label>
-<select id="spread">
-  <option value="1">1 lap – Napi üzenet</option>
-  <option value="3">3 lap – Múlt / Jelen / Jövő</option>
-  <option value="5">5 lap – Helyzetfeltárás</option>
-</select>
-
-<button onclick="drawCards()">Lapok húzása</button>
-
-<div id="cards"></div>
-<div id="analysis"></div>
-
-<script src="script.js"></script>
+  <script src="data/tarotDeck.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
