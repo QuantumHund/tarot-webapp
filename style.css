@@ -1,37 +1,130 @@
+/* -------- ALAPOK -------- */
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f7f5f2;
+  color: #222;
+  margin: 0;
   padding: 20px;
-  background: #f7f7f7;
+  text-align: center;
 }
 
-#cards, #spread {
+h1, h2 {
+  margin-bottom: 10px;
+}
+
+/* -------- ŰRLAP ELEMEK -------- */
+
+select,
+input,
+button {
+  padding: 8px 12px;
+  font-size: 1rem;
+  margin: 5px;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* -------- FULL PAKLI -------- */
+
+#cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 12px;
   justify-content: center;
   margin-top: 20px;
 }
 
-.card, .spread-position {
+.card {
+  width: 90px;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.3s ease;
+}
+
+.card img:hover {
+  transform: scale(1.05);
+}
+
+/* kiválasztott lap */
+.card.used img {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* -------- KIRAKÁS -------- */
+
+#spread {
+  margin: 40px auto;
+  display: grid;
+  gap: 16px;
+  justify-content: center;
+}
+
+/* egy és három lapos */
+#spread:not(.celtic) {
+  grid-template-columns: repeat(auto-fit, 120px);
+}
+
+/* -------- CELTIC CROSS -------- */
+
+#spread.celtic {
+  grid-template-columns: repeat(4, 120px);
+  grid-template-rows: repeat(4, auto);
+}
+
+.spread-position {
   width: 120px;
   text-align: center;
 }
 
-.card img, .spread-position img {
+.spread-position img {
   width: 100%;
   height: auto;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  cursor: pointer;
+  margin-top: 4px;
 }
 
-.card h3, .card p, .spread-position p {
-  margin: 5px 0;
-  font-size: 0.85rem;
+.position-label {
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-bottom: 4px;
 }
 
-.spread-position {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* -------- ELEMZÉSEK -------- */
+
+#analysis,
+#finalAnalysis {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  text-align: left;
+  line-height: 1.4;
+}
+
+/* -------- RESZPONZÍV -------- */
+
+@media (max-width: 600px) {
+  .card {
+    width: 70px;
+  }
+
+  #spread.celtic {
+    grid-template-columns: repeat(4, 90px);
+  }
+
+  .spread-position {
+    width: 90px;
+  }
 }
