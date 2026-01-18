@@ -1,31 +1,55 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tarot Kártyák</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarot Kirakás</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<h1>Tarot Kártyák</h1>
 
-<h2>Válassz kirakást:</h2>
-<select id="spreadType">
-  <option value="oneCard">Egylapos kirakás</option>
-  <option value="threeCard">Háromlapos kirakás</option>
-  <option value="celticCross">Celtic Cross</option>
-</select>
+  <h1>Tarot kártya kirakás</h1>
 
-<h2>Kirakás:</h2>
-<div id="spread"></div>
+  <!-- KIRAKÁS VÁLASZTÓ -->
+  <section>
+    <h2>Válassz kirakást</h2>
+    <select id="spreadType">
+      <option value="one">Egylapos</option>
+      <option value="three">Háromlapos (Múlt – Jelen – Jövő)</option>
+      <option value="celtic">Celtic Cross</option>
+    </select>
+  </section>
 
-<h2>Full pakli:</h2>
-<div id="cards"></div>
+  <!-- FULL PAKLI -->
+  <section>
+    <h2>Pakli</h2>
+    <p>Kattints a kártyákra a kiválasztáshoz</p>
+    <div id="cards"></div>
+  </section>
 
-<h2>Összegző elemzés:</h2>
-<div id="finalAnalysis" style="white-space: pre-line; border: 1px solid #ccc; padding: 10px; border-radius: 8px;"></div>
+  <!-- KIRAKÁS -->
+  <section>
+    <h2>Kirakás</h2>
+    <div id="spread"></div>
+  </section>
 
-<script src="data/tarotDeck.js"></script>
-<script src="script.js"></script>
+  <!-- KÁRTYÁNKÉNTI ELEMZÉS -->
+  <section>
+    <h2>Lapok értelmezése</h2>
+    <div id="analysis"></div>
+  </section>
+
+  <!-- ÖSSZEGZŐ ELEMZÉS -->
+  <section>
+    <h2>Összegző értelmezés</h2>
+    <div id="finalAnalysis">
+      <em>Válassz ki minden szükséges kártyát a kirakáshoz.</em>
+    </div>
+  </section>
+
+  <!-- SCRIPTEK -->
+  <script src="data/tarotDeck.js"></script>
+  <script src="script.js"></script>
+
 </body>
 </html>
