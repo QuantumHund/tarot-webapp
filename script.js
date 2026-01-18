@@ -9,9 +9,9 @@ function displayCards(cards) {
     const div = document.createElement("div");
     div.className = "card";
 
-    // Hátlap kezdetben
+    // Hátlap
     const img = document.createElement("img");
-    img.src = "cards/CardBacks.png"; // hátlap
+    img.src = "cards/CardBacks.png";
     img.style.cursor = "pointer";
 
     // Kártya neve és jelentése rejtve
@@ -40,31 +40,38 @@ function displayCards(cards) {
 }
 
 // ------------------------
-// Kirakás és kérdés kezelése
+// Kirakás és elemzés
 // ------------------------
-document.getElementById("drawBtn").addEventListener("click", () => {
-  const spread = document.getElementById("spreadType").value;
-  const question = document.getElementById("question").value;
+document.addEventListener("DOMContentLoaded", () => {
+  const drawBtn = document.getElementById("drawBtn");
 
-  let numCards;
-  switch(spread) {
-    case "oneCard": numCards = 1; break;
-    case "threeCard": numCards = 3; break;
-    case "celticCross": numCards = 10; break;
-    default: numCards = 1;
-  }
+  drawBtn.addEventListener("click", () => {
+    const spread = document.getElementById("spreadType").value;
+    const question = document.getElementById("question").value;
 
-  // Véletlenszerű húzás a tarotDeck-ből
-  const shuffled = [...tarotDeck].sort(() => 0.5 - Math.random());
-  const drawn = shuffled.slice(0, numCards);
+    let numCards;
+    switch(spread) {
+      case "oneCard": numCards = 1; break;
+      case "threeCard": numCards = 3; break;
+      case "celticCross": numCards = 10; break;
+      default: numCards = 1;
+    }
 
-  // Megjelenítés
-  displayCards(drawn);
+    // Véletlenszerű húzás
+    const shuffled = [...tarotDeck].sort(() => 0.5 - Math.random());
+    const drawn = shuffled.slice(0, numCards);
 
-  // Rövid elemzés (alert-ben)
-  const analysis = drawn.map((card, index) => {
-    return `${index + 1}. ${card.name}: ${card.meaning} (kérdés: "${question}")`;
-  }).join("\n");
+    // Megjelenítés
+    displayCards(drawn);
 
-  alert(analysis); // ide lehet később div-et csinálni szebben
+    // Elemzés div-be írás
+    const analysisDiv = document.getElementById("analysis");
+    analysisDiv.innerHTML = ""; // előző elemzés törlése
+
+    drawn.forEach((card, index) => {
+      const line = document.createElement("p");
+      line.textContent = `${index + 1}. ${card.name}: ${card.meaning} (kérdés: "${question}")`;
+      analysisDiv.appendChild(line);
+    });
+  });
 });
