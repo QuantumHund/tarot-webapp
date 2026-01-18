@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="hu">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tarot Flip</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>Tarot Kártyák</h1>
-  <div id="cards"></div>
+<h2>Válassz kirakást:</h2>
+<select id="spreadType">
+  <option value="oneCard">Egylapos kirakás</option>
+  <option value="threeCard">Háromlapos kirakás</option>
+  <option value="celticCross">Celtic Cross</option>
+</select>
 
-  <script src="data/tarotDeck.js"></script>
-  <script src="script.js"></script>
-</body>
-</html>
+<h2>Írd be a kérdésed:</h2>
+<input type="text" id="question" placeholder="Mi érdekel?">
+<button id="drawBtn">Húzz kártyát</button>
+
+<div id="cards"></div>
